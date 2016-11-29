@@ -1,0 +1,3 @@
+arm-linux-gnueabi-gcc -g -std=gnu99 -Wall -Werror -I include main.c source/includes.h source/ini.c source/ini.h source/controller.c source/controller.h source/rp.h -o RP_Controller -L lib -lm -lpthread -lrp
+
+
