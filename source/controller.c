@@ -54,7 +54,7 @@ int handler(void* pointer, const char* section, const char* attribute, const cha
 	{
 		sprintf(rampSection, "ramp%i", i);
 
-		if (MATCH(rampSection, "period")) 		synth->ramps[i].modulationPeriod = atof(value); 
+		if (MATCH(rampSection, "length")) 		synth->ramps[i].modulationPeriod = atof(value); 
 		else if (MATCH(rampSection, "bandwidth")) 	synth->ramps[i].bandwidth = atof(value);  
 		else if (MATCH(rampSection, "next")) 		synth->ramps[i].next = atoi(value);    
 		else if (MATCH(rampSection, "trigger")) 	synth->ramps[i].trigger = atoi(value);

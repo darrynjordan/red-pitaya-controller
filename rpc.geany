@@ -19,7 +19,7 @@ indent_mode=2
 
 [project]
 name=rpc
-base_path=./
+base_path=/home/darryn/Git/red_pitaya_controller
 description=
 file_patterns=
 
@@ -28,8 +28,7 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=14974;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred_pitaya_controller%2Fsource%2Frp.h;0;4
+current_page=-1
 
 [VTE]
 last_dir=/home/darryn
