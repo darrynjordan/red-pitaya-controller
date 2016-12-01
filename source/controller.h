@@ -25,7 +25,6 @@ typedef struct
 	uint8_t flag;
 	uint8_t doubler;
 	
-	double modulationPeriod;
 	double bandwidth;
 	
 	int nextTriggerReset;

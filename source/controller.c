@@ -10,7 +10,6 @@ void clearParameters(Synthesizer *synth)
 	for(int i = 0; i < MAX_RAMPS; i++)
 	{
 		synth->ramps[i].number = i;  
-		synth->ramps[i].modulationPeriod = 0; 
 		synth->ramps[i].bandwidth = 0;  
 		synth->ramps[i].next = 0;    
 		synth->ramps[i].trigger = 0;
@@ -54,7 +53,7 @@ int handler(void* pointer, const char* section, const char* attribute, const cha
 	{
 		sprintf(rampSection, "ramp%i", i);
 
-		if (MATCH(rampSection, "length")) 		synth->ramps[i].modulationPeriod = atof(value); 
+		if (MATCH(rampSection, "length")) 			synth->ramps[i].length = atof(value); 
 		else if (MATCH(rampSection, "bandwidth")) 	synth->ramps[i].bandwidth = atof(value);  
 		else if (MATCH(rampSection, "next")) 		synth->ramps[i].next = atoi(value);    
 		else if (MATCH(rampSection, "trigger")) 	synth->ramps[i].trigger = atoi(value);
@@ -80,9 +79,6 @@ void calculateRampParameters(Synthesizer *synth, Experiment *experiment)
 	
 	for (int i = 0; i < 8; i++)
 	{
-		//calculate RAMPx_LEN = phase detector frequency [MHz] * modulation period [us] 		
-		synth->ramps[i].length = phase_detector_frequency*synth->ramps[i].modulationPeriod;
-		
 		if (synth->ramps[i].length > pow(2, 16) - 1)
 		{
 			cprint("[!!] ", BRIGHT, RED);
