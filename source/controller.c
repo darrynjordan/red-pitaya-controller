@@ -26,13 +26,13 @@ void clearParameters(Synthesizer *synth)
 void getParameters(Synthesizer *synth)
 {
 	char* filename = (char*)malloc(50*sizeof(char));
-	strcpy(filename, "ramp_parameters/");
+	strcpy(filename, "ramps/");
 	strcat(filename, synth->parameterFile);	
 	
 	if (ini_parse(filename, handler, synth) < 0) 
 	{
 		cprint("[!!] ", BRIGHT, RED);
-		printf("Could not open %s. Check that the filename is correct.\n", filename);
+		printf("Could not open %s. Check that the file name is correct.\n", filename);
 		exit(EXIT_FAILURE);
     }   
 }
@@ -208,7 +208,7 @@ void readTemplateFile(const char* filename, Synthesizer *synth)
 	if (templateFile == 0)
 	{
 		cprint("[!!] ", BRIGHT, RED);
-		printf("Could not open %s. Check that the filename is correct.\n", filename);
+		printf("Could not open %s. Check that the file name is correct.\n", filename);
 		exit(0);
 	}
 	else
@@ -665,12 +665,12 @@ void configureVerbose(Experiment *experiment, Synthesizer *synthOne, Synthesizer
 	else
     {
 		//copy ini parameter files
-		sprintf(syscmd, "cp ramp_parameters/%s %s", synthOne->parameterFile, foldername);
+		sprintf(syscmd, "cp ramps/%s %s", synthOne->parameterFile, foldername);
 		system(syscmd);
 		
 		if (synthOne->parameterFile != synthTwo->parameterFile)
 		{
-			sprintf(syscmd, "cp ramp_parameters/%s %s", synthTwo->parameterFile, foldername); 
+			sprintf(syscmd, "cp ramps/%s %s", synthTwo->parameterFile, foldername); 
 			system(syscmd);
 		}
 		
@@ -802,14 +802,14 @@ int continuousAcquire(int channel, int kbytes, int dec, char* filename_ch1, char
 		return 1;
 	}
 
-	//If anything goes wrong with initializing scope or options, go to cleanup
+	//If anything goes wrong with initialising scope or options, go to cleanup
 	signal_init();
 
 	if (scope_init(&param, &g_options)) 
 	{
 		retval = 2;
 		cprint("[!!] ", BRIGHT, RED);
-		printf("Scope initialization failed, went to cleanup\n");
+		printf("Scope initialisation failed, went to cleanup\n");
 		goto cleanup;
 	}
 
@@ -818,7 +818,7 @@ int continuousAcquire(int channel, int kbytes, int dec, char* filename_ch1, char
 		if (connection_init(&g_options)) 
 		{
 			cprint("[!!] ", BRIGHT, RED);
-			printf("Connection initialization failed, went to cleanup_scope\n");
+			printf("Connection initialisation failed, went to cleanup_scope\n");
 			retval = 3;
 			goto cleanup_scope;
 		}

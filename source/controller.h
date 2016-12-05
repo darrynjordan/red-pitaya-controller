@@ -55,9 +55,9 @@ typedef struct
 
 typedef struct
 {
-	int is_imu;			//is the IMU connected?
-	int is_debug_mode;	//is debug mode enabled
-	int adc_channel;	//adc channel to record on
+	int is_imu;				//is the IMU connected?
+	int is_debug_mode;		//is debug mode enabled
+	int adc_channel;		//adc channel to record on
 	int decFactor; 			//adc decimation factor
 	int recDuration; 		//recording duration [s] 
 	int recSize; 			//recoring size [kB]

@@ -16,12 +16,12 @@ int main(int argc, char *argv[])
 	int is_one = 0;
 	int is_two = 0;
 	
-	//decalre structs
+	//declare structs
 	Experiment experiment;	
 	Synthesizer synthOne;
 	Synthesizer synthTwo;	
 	
-	//initialize synth number
+	//initialise synth number
 	synthOne.number = 1;
 	synthTwo.number = 2;
 	
@@ -77,23 +77,23 @@ int main(int argc, char *argv[])
 	getParameters(&synthOne);
 	getParameters(&synthTwo);
 	
-	//calculate additional ramp paramters
+	//calculate additional ramp parameters
 	calculateRampParameters(&synthOne, &experiment);
 	calculateRampParameters(&synthTwo, &experiment);
 	
-	//convert neccessary values to binary
+	//convert necessary values to binary
 	generateBinValues(&synthOne);
 	generateBinValues(&synthTwo);
 
 	//import register values from template file
-	readTemplateFile("register_template/ramp_template.txt", &synthOne);	
-	readTemplateFile("register_template/ramp_template.txt", &synthTwo);
+	readTemplateFile("template/ramp_template.txt", &synthOne);	
+	readTemplateFile("template/ramp_template.txt", &synthTwo);
 	
-	//insert calculated ramp paramters into register array	
+	//insert calculated ramp parameters into register array	
 	insertRampParameters(&synthOne);
 	insertRampParameters(&synthTwo);
 	
-	//initilize the red pitaya and configure pins 
+	//initialise the red pitaya and configure pins 
 	initRP();
 	initPins(&synthOne);
 	initPins(&synthTwo);
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 	setRegister(&synthOne, 2, 0b00000100); 
 	setRegister(&synthTwo, 2, 0b00000100); 
 	
-	//initilize IMU and configure update rates
+	//initialise IMU and configure update rates
 	if (experiment.is_imu) initIMU();
 	
 	//send register array values to synths
@@ -137,8 +137,8 @@ int main(int argc, char *argv[])
 void splash(Experiment *experiment)
 {
 	system("clear\n");
-	printf("UCT RPC Version: %s\n", VERSION);
-	printf("----------------------\n");	
+	printf("UCT RPC: %s\n", VERSION);
+	printf("--------------\n");	
 	
 	if (experiment->is_debug_mode)
 	{
