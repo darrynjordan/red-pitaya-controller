@@ -86,8 +86,8 @@ int main(int argc, char *argv[])
 	generateBinValues(&synthTwo);
 
 	//import register values from template file
-	readTemplateFile("template/ramp_template.txt", &synthOne);	
-	readTemplateFile("template/ramp_template.txt", &synthTwo);
+	readTemplateFile("template/register_template.txt", &synthOne);	
+	readTemplateFile("template/register_template.txt", &synthTwo);
 	
 	//insert calculated ramp parameters into register array	
 	insertRampParameters(&synthOne);
