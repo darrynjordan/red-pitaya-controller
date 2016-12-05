@@ -29,9 +29,12 @@ long_line_column=72
 
 [files]
 current_page=0
+FILE_NAME_0=3357;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fmain.c;0;4
+FILE_NAME_1=23646;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fcontroller.c;0;4
+FILE_NAME_2=895;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fcontroller.h;0;4
 
 [VTE]
-last_dir=/home/darryn/Git
+last_dir=/home/darryn/Git/red-pitaya-controller
 
 [prjorg]
 source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
