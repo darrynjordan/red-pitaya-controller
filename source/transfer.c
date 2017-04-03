@@ -726,8 +726,15 @@ static u_int64_t transfer_buf_mmapfile(struct scope_parameter *param,
 		fprintf(stderr, "no memory for temp buffer\n");
 		return 0ULL;
 	}
+	
+	char* filename;
+	
+	if (options->scope_chn == 0)
+		filename = options->fname_ch1;
+	else if (options->scope_chn == 1)
+		filename = options->fname_ch2;
 
-	if (!(f = fopen(options->fname_ch1, "wb"))) 
+	if (!(f = fopen(filename, "wb"))) 
 	{
 		fprintf(stderr, "file open failed, %s\n", strerror(errno));
 		free(buf);
@@ -735,11 +742,14 @@ static u_int64_t transfer_buf_mmapfile(struct scope_parameter *param,
 	}
 
 	//*******************************************************************
-	if (!(imuFile = fopen(options->fname_imu, "wb"))) 
+	if (options->imu_en)
 	{
-		fprintf(stderr, "file open failed, %s\n", strerror(errno));
-		free(buf);
-		return 0ULL;
+		if (!(imuFile = fopen(options->fname_imu, "wb"))) 
+		{
+			fprintf(stderr, "file open failed, %s\n", strerror(errno));
+			free(buf);
+			return 0ULL;
+		}
 	}
 	//*******************************************************************
 
@@ -803,8 +813,12 @@ static u_int64_t transfer_buf_mmapfile(struct scope_parameter *param,
 		pos += len;
 		transferred += len;
 	}
+
+	if (options->imu_en)
+	{	
+		fclose(imuFile);
+	}
 	
-	fclose(imuFile);
 	fclose(f);
 	free(buf);
 

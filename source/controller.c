@@ -634,11 +634,11 @@ void configureVerbose(Experiment *experiment, Synthesizer *synthOne, Synthesizer
 	
 	char* ch1_out = (char*)malloc(100*sizeof(char));
 	strcpy(ch1_out, foldername);
-	strcat(ch1_out, "ch1.bin");
+	strcat(ch1_out, "external.bin");
 	
 	char* ch2_out = (char*)malloc(100*sizeof(char));
 	strcpy(ch2_out, foldername);
-	strcat(ch2_out, "ch2.bin");
+	strcat(ch2_out, "reference.bin");
 	
 	char* imu_out = (char*)malloc(100*sizeof(char));
 	strcpy(imu_out, foldername);
@@ -742,9 +742,7 @@ void generateClock(void)
 
 
 void getExperimentParameters(Experiment *experiment)
-{
-	experiment->storageDir = "/media/storage";		
-	
+{	
 	char userin;
 	do
 	{  
