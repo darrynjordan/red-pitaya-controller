@@ -26,6 +26,8 @@ int main(int argc, char *argv[])
 	synthTwo.number = 2;
 	
 	experiment.storageDir = "/media/storage";
+	experiment.is_debug_mode = 0;
+	experiment.adc_channel = 0;
 
 	// Retrieve the options:
     while ((opt = getopt(argc, argv, "dib:c:1:2:r")) != -1 )

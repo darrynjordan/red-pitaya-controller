@@ -12,7 +12,7 @@
 
 #include "rp.h"
 
-#define VERSION "0.9.7"
+#define VERSION "0.9.8"
 #define MAX_RAMPS 8
 #define NUM_REGISTERS 142
 
