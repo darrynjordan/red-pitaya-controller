@@ -69,7 +69,6 @@ typedef struct
 } Experiment;
 
 void clearTerminal(void);
-void clearParameters(Synthesizer *synth);
 void getParameters(Synthesizer *synth);
 void getExperimentParameters(Experiment *experiment);
 int  handler(void* user, const char* section, const char* name, const char* value);

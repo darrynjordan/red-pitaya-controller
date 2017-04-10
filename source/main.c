@@ -77,9 +77,6 @@ int main(int argc, char *argv[])
 
 	splash(&experiment);
 
-	clearParameters(&synthOne);
-	clearParameters(&synthTwo);
-
 	//get parameters for ini files
 	getParameters(&synthOne);
 	getParameters(&synthTwo);
@@ -123,10 +120,8 @@ int main(int argc, char *argv[])
 	getExperimentParameters(&experiment);
 	configureVerbose(&experiment, &synthOne, &synthTwo);
 
-
 	//trigger synth's to begin generating ramps at the same time
 	parallelTrigger(&synthOne, &synthTwo);
-	//triggerSynthesizers(&synthOne, &synthTwo);
 
 	//begin recording adc data
 	if (continuousAcquire(experiment.adc_channel, experiment.recSize, experiment.decFactor, experiment.ch1_filename, experiment.ch2_filename, experiment.imu_filename, experiment.is_imu) != 0)

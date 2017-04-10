@@ -1,7 +1,7 @@
 #include "controller.h"
 
-
-void clearParameters(Synthesizer *synth)
+//load ramp parameters from ini files
+void getParameters(Synthesizer *synth)
 {
 	//ensure that the register array is cleared
 	memset(synth->binaryRegisterArray, 0, sizeof(synth->binaryRegisterArray));
@@ -19,12 +19,7 @@ void clearParameters(Synthesizer *synth)
 		synth->ramps[i].length = 0;
 		synth->ramps[i].increment = 0;
 	}	
-}
-
-
-//load ramp parameters from ini files
-void getParameters(Synthesizer *synth)
-{
+	
 	char* filename = (char*)malloc(50*sizeof(char));
 	strcpy(filename, "ramps/");
 	strcat(filename, synth->parameterFile);	
@@ -372,9 +367,12 @@ void initPins(Synthesizer *synth)
 	rp_DpinSetDirection(synth->dataPin, RP_OUT);
 	rp_DpinSetDirection(synth->clockPin, RP_OUT);
 	rp_DpinSetDirection(synth->trigPin, RP_OUT);
+	
+	//Pull trigger pin low
+	rp_DpinSetState(synth->trigPin, RP_LOW);
 
 	//Set trig pin to input
-	rp_DpinSetDirection(RP_DIO0_P, RP_IN);
+	//rp_DpinSetDirection(RP_DIO0_P, RP_IN);
 }
 
 
@@ -589,9 +587,7 @@ void releaseRP(void)
 
 void triggerSynthesizers(Synthesizer *synthOne, Synthesizer *synthTwo)
 {
-
 	//Trigger
-
 	rp_DpinSetState(synthOne->trigPin, RP_LOW);
 	rp_DpinSetState(synthTwo->trigPin, RP_LOW);	
 	usleep(1);	
@@ -604,7 +600,13 @@ void triggerSynthesizers(Synthesizer *synthOne, Synthesizer *synthTwo)
 
 
 void parallelTrigger(Synthesizer *synthOne, Synthesizer *synthTwo)
-{
+{		
+	cprint("[??] ", BRIGHT, BLUE);
+	printf("Press enter to trigger...");
+	scanf(" ");
+	
+	setpins(synthOne->trigPin - RP_DIO0_N, 0, synthTwo->trigPin - RP_DIO0_N, 0, 0x4000001C);
+	usleep(1);
 	setpins(synthOne->trigPin - RP_DIO0_N, 1, synthTwo->trigPin - RP_DIO0_N, 1, 0x4000001C);
 	usleep(1);
 	setpins(synthOne->trigPin - RP_DIO0_N, 0, synthTwo->trigPin - RP_DIO0_N, 0, 0x4000001C);
