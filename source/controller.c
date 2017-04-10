@@ -67,6 +67,7 @@ void calculateRampParameters(Synthesizer *synth, Experiment *experiment)
 	{
 		cprint("\n[**] ", BRIGHT, CYAN);	
 		printf("Synthesizer %i loaded with %s:\n", synth->number, synth->parameterFile);
+		printf("Fractional Numerator: %d\n", synth->fractionalNumerator);
 		printf("Frequency Offset: %f [MHz]\n", vcoOut(synth->fractionalNumerator));
 		printf("| NUM | NXT | RST | DBL |   LEN |            INC |      BNW |\n");
 	}
@@ -605,6 +606,7 @@ void parallelTrigger(Synthesizer *synthOne, Synthesizer *synthTwo)
 	printf("Press enter to trigger...");
 	scanf(" ");
 	
+	//Rising edge required
 	setpins(synthOne->trigPin - RP_DIO0_N, 0, synthTwo->trigPin - RP_DIO0_N, 0, 0x4000001C);
 	usleep(1);
 	setpins(synthOne->trigPin - RP_DIO0_N, 1, synthTwo->trigPin - RP_DIO0_N, 1, 0x4000001C);
@@ -695,6 +697,7 @@ void configureVerbose(Experiment *experiment, Synthesizer *synthOne, Synthesizer
 		fprintf(summaryFile, "duration = %i\r\n", 1024*experiment->recDuration);			
 		
 		fprintf(summaryFile, "\n[synth_one]\r\n");
+		fprintf(summaryFile, "fractional_numerator = %d\r\n", synthOne->fractionalNumerator);
 		fprintf(summaryFile, "frequency_offset = %.3f\r\n", vcoOut(synthOne->fractionalNumerator));
 		fprintf(summaryFile, "| NUM | NXT | RST | DBL |   LEN |            INC |      BNW |\r\n");		
 		
