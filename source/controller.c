@@ -55,6 +55,7 @@ int handler(void* pointer, const char* section, const char* attribute, const cha
 
 		if (MATCH(rampSection, "length")) 			synth->ramps[i].length = atof(value); 
 		else if (MATCH(rampSection, "bandwidth")) 	synth->ramps[i].bandwidth = atof(value);  
+		else if (MATCH(rampSection, "increment")) 	synth->ramps[i].increment = atof(value);
 		else if (MATCH(rampSection, "next")) 		synth->ramps[i].next = atoi(value);    
 		else if (MATCH(rampSection, "trigger")) 	synth->ramps[i].trigger = atoi(value);
 		else if (MATCH(rampSection, "reset")) 		synth->ramps[i].reset = atoi(value);
@@ -87,10 +88,9 @@ void calculateRampParameters(Synthesizer *synth, Experiment *experiment)
 		}
 		
 		//calculate RAMPx_INC = (bandwidth [Hz] * 2^24)/(phase detector frequency [MHz] * ramp_length)
-		if (synth->ramps[i].length != 0)
+		if ((synth->ramps[i].length != 0) && (synth->ramps[i].increment == 0))
 		{
-			synth->ramps[i].increment = (synth->ramps[i].bandwidth*4*pow(2, 24))/(phase_detector_frequency*synth->ramps[i].length*pow(10,6));	
-			
+			synth->ramps[i].increment = (synth->ramps[i].bandwidth*4*pow(2, 24))/(phase_detector_frequency*synth->ramps[i].length*pow(10,6));			
 		}
 		
 		if (synth->ramps[i].increment > pow(2, 30) - 1)
