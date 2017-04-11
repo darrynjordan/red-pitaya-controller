@@ -62,6 +62,7 @@ typedef struct
 	int recDuration; 		//recording duration [s] 
 	int recSize; 			//recoring size [kB]
 	char* storageDir; 		//path to storage directory
+	char* timeStamp;		//experiment timestamp
 	char* ch1_filename; 	//filename of output data including path
 	char* ch2_filename; 	//filename of output data including path
 	char* imu_filename; 	//filename of output data including path

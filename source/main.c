@@ -129,6 +129,9 @@ int main(int argc, char *argv[])
 		cprint("[!!] ", BRIGHT, RED);
 		printf("Error occured during recording.\n");
 	}
+	
+	cprint("[OK] ", BRIGHT, GREEN);
+	printf("Storage location: %s/%s\n", experiment.storageDir, experiment.timeStamp);
 
 	releaseRP();
 

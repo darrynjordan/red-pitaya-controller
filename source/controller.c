@@ -67,8 +67,8 @@ void calculateRampParameters(Synthesizer *synth, Experiment *experiment)
 	{
 		cprint("\n[**] ", BRIGHT, CYAN);	
 		printf("Synthesizer %i loaded with %s:\n", synth->number, synth->parameterFile);
-		printf("Fractional Numerator: %d\n", synth->fractionalNumerator);
 		printf("Frequency Offset: %f [MHz]\n", vcoOut(synth->fractionalNumerator));
+		printf("Fractional Numerator: %d\n", synth->fractionalNumerator);		
 		printf("| NUM | NXT | RST | DBL |   LEN |            INC |      BNW |\n");
 	}
 	
@@ -603,8 +603,11 @@ void triggerSynthesizers(Synthesizer *synthOne, Synthesizer *synthTwo)
 void parallelTrigger(Synthesizer *synthOne, Synthesizer *synthTwo)
 {		
 	cprint("[??] ", BRIGHT, BLUE);
-	printf("Press enter to trigger...");
-	scanf(" ");
+	printf("Press enter to trigger...\n");
+	
+	//Dirty, but it works...
+	getchar();
+	getchar();
 	
 	//Rising edge required
 	setpins(synthOne->trigPin - RP_DIO0_N, 0, synthTwo->trigPin - RP_DIO0_N, 0, 0x4000001C);
@@ -650,13 +653,17 @@ void configureVerbose(Experiment *experiment, Synthesizer *synthOne, Synthesizer
 	
 	char* summary = (char*)malloc(100*sizeof(char));
 	strcpy(summary, foldername);
-	strcat(summary, "summary.ini");		
+	strcat(summary, "summary.ini");	
+	
+	char* time_stamp = (char*)malloc(100*sizeof(char));
+	strcpy(time_stamp, timestamp);
 	
 	experiment->ch1_filename = ch1_out;
 	experiment->ch2_filename = ch2_out;
 	experiment->imu_filename = imu_out;
 	experiment->summary_filename = summary;
-		
+	experiment->timeStamp = time_stamp;
+	
 	FILE* summaryFile;
 	summaryFile = fopen(experiment->summary_filename, "w");
 	
@@ -697,8 +704,8 @@ void configureVerbose(Experiment *experiment, Synthesizer *synthOne, Synthesizer
 		fprintf(summaryFile, "duration = %i\r\n", 1024*experiment->recDuration);			
 		
 		fprintf(summaryFile, "\n[synth_one]\r\n");
-		fprintf(summaryFile, "fractional_numerator = %d\r\n", synthOne->fractionalNumerator);
 		fprintf(summaryFile, "frequency_offset = %.3f\r\n", vcoOut(synthOne->fractionalNumerator));
+		fprintf(summaryFile, "fractional_numerator = %d\r\n", synthOne->fractionalNumerator);		
 		fprintf(summaryFile, "| NUM | NXT | RST | DBL |   LEN |            INC |      BNW |\r\n");		
 		
 		for (int k = 0; k<8; k++)
@@ -713,6 +720,7 @@ void configureVerbose(Experiment *experiment, Synthesizer *synthOne, Synthesizer
 		
 		fprintf(summaryFile, "\n[synth_two]\r\n");
 		fprintf(summaryFile, "frequency_offset = %.3f\r\n", vcoOut(synthTwo->fractionalNumerator));
+		fprintf(summaryFile, "fractional_numerator = %d\r\n", synthTwo->fractionalNumerator);		
 		fprintf(summaryFile, "| NUM | NXT | RST | DBL |   LEN |            INC |      BNW |\r\n");
 		
 		for (int j = 0; j<8; j++)
@@ -727,9 +735,6 @@ void configureVerbose(Experiment *experiment, Synthesizer *synthOne, Synthesizer
 
 		fclose(summaryFile);
 	}	
-	
-	cprint("[OK] ", BRIGHT, GREEN);
-	printf("Storage location: %s\n", foldername);
 }
 
 
