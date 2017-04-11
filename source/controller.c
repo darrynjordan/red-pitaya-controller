@@ -371,9 +371,6 @@ void initPins(Synthesizer *synth)
 	
 	//Pull trigger pin low
 	rp_DpinSetState(synth->trigPin, RP_LOW);
-
-	//Set trig pin to input
-	//rp_DpinSetDirection(RP_DIO0_P, RP_IN);
 }
 
 

@@ -1,0 +1,3 @@
+v0.1 - Original template used by Ivan/Jean
+v0.2 - Frequency doubler enabled for 50 MHz clock from RP
+v0.3 - MUXout set to DLD (R39 = 5A)

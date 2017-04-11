@@ -13,8 +13,8 @@ extern UM7_packet global_packet;
 int main(int argc, char *argv[])
 {
 	int opt;
-	int is_one = 0;
-	int is_two = 0;
+	int is_synth_one = 0;
+	int is_synth_two = 0;
 
 	//declare structs
 	Experiment experiment;
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	experiment.adc_channel = 0;
 
 	// Retrieve the options:
-    while ((opt = getopt(argc, argv, "dib:c:1:2:r")) != -1 )
+    while ((opt = getopt(argc, argv, "dib:c:t:l:r")) != -1 )
     {
         switch (opt)
         {
@@ -49,15 +49,15 @@ int main(int argc, char *argv[])
 			case 'b':
 				synthOne.parameterFile = optarg;
 				synthTwo.parameterFile = optarg;
-				is_one = 1;
-				is_two = 1;
+				is_synth_one = 1;
+				is_synth_two = 1;
 				break;
-			case '1':
-				is_one = 1;
+			case 'l':
+				is_synth_one = 1;
 				synthOne.parameterFile = optarg;
 				break;
-			case '2':
-				is_two = 1;
+			case 't':
+				is_synth_two = 1;
 				synthTwo.parameterFile = optarg;
 				break;
             case '?':
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (is_one + is_two != 2)
+    if (is_synth_one + is_synth_two != 2)
     {
 		cprint("[!!] ", BRIGHT, RED);
 		printf("A .ini parameter file must be provided for each synthesizer.\n");
@@ -122,6 +122,27 @@ int main(int argc, char *argv[])
 
 	//trigger synth's to begin generating ramps at the same time
 	parallelTrigger(&synthOne, &synthTwo);
+	
+/*	rp_DpinSetDirection(RP_DIO0_P, RP_IN);
+	rp_DpinSetDirection(RP_DIO1_P, RP_IN);
+	rp_DpinSetDirection(RP_DIO2_P, RP_IN);
+	rp_DpinSetDirection(RP_DIO3_P, RP_IN);
+	rp_DpinSetDirection(RP_DIO4_P, RP_IN);
+	rp_DpinSetDirection(RP_DIO5_P, RP_IN);
+	rp_DpinSetDirection(RP_DIO6_P, RP_IN);
+	rp_DpinSetDirection(RP_DIO7_P, RP_IN);
+	
+	rp_pinState_t locked_loop;
+	while(true)
+	{
+		system("clear\n");
+		for (int i = 0; i < 8; i++)
+		{
+			rp_DpinGetState(RP_DIO0_P + i, &locked_loop);
+			printf("P_DIO%i_P is %i\n", i, locked_loop);
+		}
+		usleep(1000);
+	}*/
 
 	//begin recording adc data
 	if (continuousAcquire(experiment.adc_channel, experiment.recSize, experiment.decFactor, experiment.ch1_filename, experiment.ch2_filename, experiment.imu_filename, experiment.is_imu) != 0)
