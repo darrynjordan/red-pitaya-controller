@@ -591,9 +591,9 @@ void triggerSynthesizers(Synthesizer *synthOne, Synthesizer *synthTwo)
 	usleep(1);	
 	rp_DpinSetState(synthTwo->trigPin, RP_HIGH);
 	rp_DpinSetState(synthOne->trigPin, RP_HIGH);
-	usleep(1);
+	/*usleep(1);
 	rp_DpinSetState(synthOne->trigPin, RP_LOW);
-	rp_DpinSetState(synthTwo->trigPin, RP_LOW);	
+	rp_DpinSetState(synthTwo->trigPin, RP_LOW);*/	
 }
 
 
@@ -610,8 +610,8 @@ void parallelTrigger(Synthesizer *synthOne, Synthesizer *synthTwo)
 	setpins(synthOne->trigPin - RP_DIO0_N, 0, synthTwo->trigPin - RP_DIO0_N, 0, 0x4000001C);
 	usleep(1);
 	setpins(synthOne->trigPin - RP_DIO0_N, 1, synthTwo->trigPin - RP_DIO0_N, 1, 0x4000001C);
-	usleep(1);
-	setpins(synthOne->trigPin - RP_DIO0_N, 0, synthTwo->trigPin - RP_DIO0_N, 0, 0x4000001C);
+	/*usleep(1);
+	setpins(synthOne->trigPin - RP_DIO0_N, 0, synthTwo->trigPin - RP_DIO0_N, 0, 0x4000001C);*/
 	
 	cprint("[OK] ", BRIGHT, GREEN);
 	printf("Synthesizers triggered in parallel.\n");		

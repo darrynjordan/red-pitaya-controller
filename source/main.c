@@ -115,6 +115,10 @@ int main(int argc, char *argv[])
 	//send register array values to synths
 	updateRegisters(&synthOne);
 	updateRegisters(&synthTwo);
+	
+	//enable ramping now that ramps have been configured
+	setRegister(&synthOne, 58, 0b00100001);
+	setRegister(&synthTwo, 58, 0b00100001);
 
 	//get user input for final experiment settings
 	getExperimentParameters(&experiment);
