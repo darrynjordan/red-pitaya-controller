@@ -9,13 +9,21 @@
 #include <errno.h>
 #include "includes.h"
 
+#define CREG_COM_SETTINGS 	0x00
+#define CREG_COM_RATES1 	0x01
+#define CREG_COM_RATES2 	0x02
+#define CREG_COM_RATES3 	0x03
+#define CREG_COM_RATES4 	0x04
+#define CREG_COM_RATES5 	0x05
+#define CREG_COM_RATES6 	0x06
+
 typedef struct UM7_packet_struct
 {
   uint8_t address;
-  uint8_t PT;
-  uint16_t checksum;
-  uint8_t data_length;
+  uint8_t packet_type;
+  uint16_t checksum; 
   uint8_t data[30];
+  uint8_t n_data_bytes;
 } UM7_packet;
 
 

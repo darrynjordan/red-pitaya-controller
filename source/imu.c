@@ -95,11 +95,11 @@ uint8_t parse_serial_data( uint8_t* rx_data, uint8_t rx_length, UM7_packet* pack
 	
 	//printf("packet address = %i\n", (int)(packet->Address));
 	
-	packet->PT = PT;
+	packet->packet_type = PT;
 
 	// Get the data bytes and compute the checksum all in one step
-	packet->data_length = data_length;
-	uint16_t computed_checksum = 's' + 'n' + 'p' + packet->PT + packet->address;	
+	packet->n_data_bytes = data_length;
+	uint16_t computed_checksum = 's' + 'n' + 'p' + packet->packet_type + packet->address;	
 	
 	for( index = 0; index < data_length; index++ )
     {
@@ -212,7 +212,7 @@ int uartReadRaw(uint8_t* buffer, int size)
 		return 0;
 	}  
 	
-	//tcflush(uart_fd, TCIFLUSH); //flush the uart buffer
+	tcflush(uart_fd, TCIFLUSH); //flush the uart buffer
 	
 }
 
@@ -272,17 +272,19 @@ int uartRead(int size)
 			{
 				return -3; //No data received
 			}	
-					
+	
 			break;		
 		}
-	}   
+	} 
+	
+	tcflush(uart_fd, TCIFLUSH);  
 }
 
  int uartWrite(UM7_packet* packet){
   
 	/* Write some sample data into UART */
 	/* ----- TX BYTES ----- */
-	int msg_len = packet->data_length + 7;
+	int msg_len = packet->n_data_bytes + 7;
 
 	int count = 0;
 	char tx_buffer[msg_len+1];
@@ -290,14 +292,14 @@ int uartRead(int size)
 	tx_buffer[0] = 's';
 	tx_buffer[1] = 'n';
 	tx_buffer[2] = 'p';
-	tx_buffer[3] = packet->PT;
+	tx_buffer[3] = packet->packet_type;
 	tx_buffer[4] = packet->address;
 	
 	//Calculate checksum and add data to buffer
 	uint16_t checksum = 's' + 'n' + 'p' + tx_buffer[3] + tx_buffer[4];
 	int i = 0;
 	
-	for (i = 0; i < packet->data_length;i++)
+	for (i = 0; i < packet->n_data_bytes;i++)
 	{
 	  tx_buffer[5+i] = packet->data[i];
 	  checksum+= packet->data[i];
@@ -335,8 +337,8 @@ int getFirmwareVersion(void)
 {
 	UM7_packet txpacket;
 	txpacket.address = 0xAA;
-	txpacket.PT = 0x00;
-	txpacket.data_length = 0;
+	txpacket.packet_type = 0x00;
+	txpacket.n_data_bytes = 0;
 
 	if(uartWrite(&txpacket) < 0)
 	{
@@ -374,8 +376,8 @@ int flashCommit(void)
 {
 	UM7_packet txpacket;
 	txpacket.address = 0xAB;
-	txpacket.PT = 0x00;
-	txpacket.data_length = 0;
+	txpacket.packet_type = 0x00;
+	txpacket.n_data_bytes = 0;
 
 	if(uartWrite(&txpacket) < 0)
 	{
@@ -404,8 +406,8 @@ int factoryReset(void)
 {
 	UM7_packet txpacket;
 	txpacket.address = 0xAC;
-	txpacket.PT = 0x00;
-	txpacket.data_length = 0;
+	txpacket.packet_type = 0x00;
+	txpacket.n_data_bytes = 0;
 
 	if(uartWrite(&txpacket) < 0)
 	{
@@ -434,8 +436,8 @@ int zeroGyros(void)
 {
 	UM7_packet txpacket;
 	txpacket.address = 0xAD;
-	txpacket.PT = 0x00;
-	txpacket.data_length = 0;
+	txpacket.packet_type = 0x00;
+	txpacket.n_data_bytes = 0;
 
 	if(uartWrite(&txpacket) < 0)
 	{
@@ -464,8 +466,8 @@ int setHomePosition(void)
 {
 	UM7_packet txpacket;
 	txpacket.address = 0xAE;
-	txpacket.PT = 0x00;
-	txpacket.data_length = 0;
+	txpacket.packet_type = 0x00;
+	txpacket.n_data_bytes = 0;
 
 	if(uartWrite(&txpacket) < 0)
 	{
@@ -493,8 +495,8 @@ int setMagReference(void)
 {
 	UM7_packet txpacket;
 	txpacket.address = 0xB0;
-	txpacket.PT = 0x00;
-	txpacket.data_length = 0;
+	txpacket.packet_type = 0x00;
+	txpacket.n_data_bytes = 0;
 
 	if(uartWrite(&txpacket) < 0)
 	{
@@ -523,8 +525,8 @@ int resetEKF(void)
 {
 	UM7_packet txpacket;
 	txpacket.address = 0xB3;
-	txpacket.PT = 0x00;
-	txpacket.data_length = 0;
+	txpacket.packet_type = 0x00;
+	txpacket.n_data_bytes = 0;
 
 	if(uartWrite(&txpacket) < 0)
 	{
@@ -552,17 +554,16 @@ void writeRegister(uint8_t address, uint8_t *data)
 {
 	UM7_packet packet;
 	
-	packet.PT = 0b10000000; 		// has data
-	packet.address = address;		// register address
-	packet.data_length = 4;			// 32-bit register
+	packet.packet_type = 0b10000000; 	// has data
+	packet.address = address;		    // register address
+	packet.n_data_bytes = 4;			// 32-bit register
 	packet.data[0] = data[0];		
 	packet.data[1] = data[1];
 	packet.data[2] = data[2];
 	packet.data[3] = data[3];	
 
 	if(uartWrite(&packet) < 0)
-		printf("UART baud rate write error\n");
-	
+		printf("UART baud rate write error\n");	
 	
 	int attempt = 0;	
 	//If reveived data was bad or wrong address, repeat transmission and reception

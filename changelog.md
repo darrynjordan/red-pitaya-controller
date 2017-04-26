@@ -10,3 +10,8 @@
  * imu.bin only created if imu mode active
  * renamed channel .bin output to external.bin (channel 1) and reference.bin (channel 2)
  * added save to ram option using ./rpc -r
+
+# RPC v1.0.1	
+
+ * added help screen (-h)
+

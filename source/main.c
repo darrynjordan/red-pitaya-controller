@@ -6,6 +6,7 @@
 #include <unistd.h>
 
 void splash(Experiment *experiment);
+void help(void);
 
 //Global UM7 receive packet
 extern UM7_packet global_packet;
@@ -30,7 +31,7 @@ int main(int argc, char *argv[])
 	experiment.adc_channel = 0;
 
 	// Retrieve the options:
-    while ((opt = getopt(argc, argv, "dib:c:t:l:r")) != -1 )
+    while ((opt = getopt(argc, argv, "dib:c:t:l:rh")) != -1 )
     {
         switch (opt)
         {
@@ -59,6 +60,9 @@ int main(int argc, char *argv[])
 			case 't':
 				is_synth_two = 1;
 				synthTwo.parameterFile = optarg;
+				break;
+			case 'h':
+				help();
 				break;
             case '?':
 				if (optopt == 'c')
@@ -127,27 +131,6 @@ int main(int argc, char *argv[])
 	//trigger synth's to begin generating ramps at the same time
 	parallelTrigger(&synthOne, &synthTwo);
 	
-/*	rp_DpinSetDirection(RP_DIO0_P, RP_IN);
-	rp_DpinSetDirection(RP_DIO1_P, RP_IN);
-	rp_DpinSetDirection(RP_DIO2_P, RP_IN);
-	rp_DpinSetDirection(RP_DIO3_P, RP_IN);
-	rp_DpinSetDirection(RP_DIO4_P, RP_IN);
-	rp_DpinSetDirection(RP_DIO5_P, RP_IN);
-	rp_DpinSetDirection(RP_DIO6_P, RP_IN);
-	rp_DpinSetDirection(RP_DIO7_P, RP_IN);
-	
-	rp_pinState_t locked_loop;
-	while(true)
-	{
-		system("clear\n");
-		for (int i = 0; i < 8; i++)
-		{
-			rp_DpinGetState(RP_DIO0_P + i, &locked_loop);
-			printf("P_DIO%i_P is %i\n", i, locked_loop);
-		}
-		usleep(1000);
-	}*/
-
 	//begin recording adc data
 	if (continuousAcquire(experiment.adc_channel, experiment.recSize, experiment.decFactor, experiment.ch1_filename, experiment.ch2_filename, experiment.imu_filename, experiment.is_imu) != 0)
 	{
@@ -173,7 +156,7 @@ void splash(Experiment *experiment)
 	if (experiment->is_debug_mode)
 	{
 		cprint("[OK] ", BRIGHT, GREEN);
-		printf("Debug mode active.\n");
+		printf("Debug mode enabled.\n");
 	}
 	else
 	{
@@ -184,11 +167,29 @@ void splash(Experiment *experiment)
 	if (experiment->is_imu)
 	{
 		cprint("[OK] ", BRIGHT, GREEN);
-		printf("IMU mode active.\n");
+		printf("IMU mode enabled.\n");
+		
+		cprint("\n[**] ", BRIGHT, CYAN);
+		printf("RP UART Pins: https://wiki.redpitaya.com/tmp/Extension_connector.png\n");
 	}
 	else
 	{
 		cprint("[!!] ", BRIGHT, RED);
 		printf("IMU mode disabled.\n");
 	}
+}
+
+void help(void)
+{
+	system("clear\n");
+	printf("UCT RPC: %s\n", VERSION);
+	printf("--------------\n");
+	printf(" -h: display this help screen\n");
+	printf(" -d: enable debug mode\n");
+	printf(" -i: enable imu mode\n");
+	printf(" -l: name of local oscillator (lo) synth parameter file\n");
+	printf(" -t: name of radio frequency (rf) synth parameter file\n");
+	printf(" -r: write output files to /tmp\n");
+	printf(" -c: input adc channel \t(0 or 1)\n");	
+	exit(EXIT_SUCCESS);	
 }

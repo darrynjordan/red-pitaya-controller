@@ -892,23 +892,34 @@ void initIMU()
 	if (resetEKF())
 		exit(EXIT_FAILURE);		
 	
-	// disable all unwanted output
+	uint8_t* regData = (uint8_t*)malloc(4*sizeof(uint8_t*));
 	uint8_t* zeros = (uint8_t*)malloc(4*sizeof(uint8_t*));	
 	memset(zeros, 0, 4);	
-	writeRegister(0x01, zeros);		// raw gyro, accel and mag rate
-	writeRegister(0x02, zeros);		// raw temp rate and all raw data rate	
 	
-	// set update rate for processed data output
-	uint8_t* regData = (uint8_t*)malloc(4*sizeof(uint8_t*));
-	regData[0] = 250;				// proc accel rate
-	regData[1] = 249;				// proc gyro rate
-	regData[2] = 248;				// proc mag rate
-	regData[3] = 0;					// reserved
-	writeRegister(0x03, regData);
+	writeRegister(CREG_COM_RATES1, zeros);		// raw gyro, accel and mag rate
+	usleep(1000);
+	writeRegister(CREG_COM_RATES2, zeros);		// raw temp rate and all raw data rate	
+	usleep(1000);
 	
-	writeRegister(0x04, zeros);		// all proc data rate	
-	writeRegister(0x05, zeros);		// quart, euler, position, velocity rate
-	writeRegister(0x06, zeros);		// heartbeat rate
+	regData[0] = 255;			// proc accel rate
+	regData[1] = 0;				// proc gyro rate
+	regData[2] = 0;				// proc mag rate
+	regData[3] = 0;				// reserved
+	
+	writeRegister(CREG_COM_RATES3, regData);	// proc data rate
+	usleep(1000);
+	//writeRegister(CREG_COM_RATES4, zeros);		// all proc data rate	
+	//usleep(1000);
+	writeRegister(CREG_COM_RATES5, zeros);		// quart, euler, position, velocity rate
+	usleep(1000);
+	
+	regData[0] = 0;					// pose rate
+	regData[1] = 0;					// res
+	regData[2] = 4;					// health rate
+	regData[3] = 0;					// res
+	
+	writeRegister(CREG_COM_RATES6, zeros);		// heartbeat rate
+	usleep(1000);
 }
 
 
