@@ -7,7 +7,7 @@ echo "Available partitions:"
 blkid
 echo "Mounting storage partition..."
 mount /dev/mmcblk0p3 /media/storage
-echo "Enter date and time in format: 2016-09-01 1:45"
+echo "Enter date and time in format: 2017-12-01 13:45"
 read input 
 echo "Date and time set to:"
 date --set """$input"""

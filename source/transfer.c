@@ -752,6 +752,9 @@ static u_int64_t transfer_buf_mmapfile(struct scope_parameter *param,
 		}
 	}
 	//*******************************************************************
+	
+	//diable adc averaging
+	rp_AcqSetAveraging(false);
 
 	curr_addr = param->mapped_io + (options->scope_chn ? 0x118 : 0x114);
 	base = *(unsigned long *)(param->mapped_io +

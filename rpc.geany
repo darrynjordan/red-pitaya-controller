@@ -28,16 +28,18 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=237;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fmain.c;0;4
-FILE_NAME_1=10416;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fcontroller.c;0;4
-FILE_NAME_2=242;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fcontroller.h;0;4
-FILE_NAME_3=22765;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Ftransfer.c;0;4
-FILE_NAME_4=4841;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Frp.h;0;4
+current_page=4
+FILE_NAME_0=2554;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fmain.c;0;4
+FILE_NAME_1=22539;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fcontroller.c;0;4
+FILE_NAME_2=912;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fcontroller.h;0;4
+FILE_NAME_3=21830;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Ftransfer.c;0;4
+FILE_NAME_4=19469;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Frp.h;0;4
 FILE_NAME_5=7749;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fimu.c;0;4
 FILE_NAME_6=362;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fimu.h;0;4
-FILE_NAME_7=0;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Ftransfer.h;0;4
+FILE_NAME_7=1667;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Ftransfer.h;0;4
 FILE_NAME_8=0;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Fincludes.h;0;4
+FILE_NAME_9=4778;C;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Foptions.c;0;4
+FILE_NAME_10=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdarryn%2FGit%2Fred-pitaya-controller%2Fsource%2Foptions.h;0;4
 
 [VTE]
 last_dir=/home/darryn/Git/red-pitaya-controller
